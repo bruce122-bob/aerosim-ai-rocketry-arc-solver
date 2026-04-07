@@ -274,7 +274,11 @@ const RocketDesignViewer: React.FC<Props> = ({ rocket }) => {
 
     const mountCandidates = designData.positioned.filter((entry) => {
       if (entry.absoluteBottom > designData.bodyTail + 1e-6) return false;
-      if (entry.component.type === 'INNER_TUBE') return entry.diameter >= motorDiameter * 0.9;
+      // INNER_TUBE: accept if explicitly marked as motor mount (regardless of diameter),
+      // or if diameter is compatible (motor tubes can be narrower than the motor due to centering rings)
+      if (entry.component.type === 'INNER_TUBE') {
+        return (entry.component as any).isMotorMount === true || entry.diameter >= motorDiameter * 0.9;
+      }
       if (entry.component.type === 'BODYTUBE') return (entry.component as any).isMotorMount && entry.diameter >= motorDiameter * 0.9;
       return false;
     });
@@ -692,25 +696,47 @@ const RocketDesignViewer: React.FC<Props> = ({ rocket }) => {
             </g>
           ))}
 
-          {showLabels &&
-            visiblePositioned
+          {showLabels && (() => {
+            const labelEntries = visiblePositioned
               .filter((entry) => entry.component.type !== 'SHOCK_CORD' && entry.component.type !== 'CENTERING_RING')
-              .map((entry) => {
-                const centerX = xFor(entry.absoluteTop) + widthFor(entry.length) / 2;
-                const y = entry.lane === 'external' ? centerY - bodyHalfHeight - finHeight - 30 : centerY + bodyHalfHeight + finHeight + 22;
-                return (
-                  <text
-                    key={`label-${entry.component.id}`}
-                    x={centerX}
-                    y={y}
-                    textAnchor="middle"
-                    fontSize="10"
-                    fill="#94a3b8"
-                  >
-                    {entry.component.name}
-                  </text>
-                );
-              })}
+              .map((entry) => ({
+                entry,
+                centerX: xFor(entry.absoluteTop) + widthFor(entry.length) / 2,
+              }))
+              .sort((a, b) => a.centerX - b.centerX);
+
+            // Stagger overlapping labels: track last used x per lane+level
+            const lastX: Record<string, number> = {};
+            return labelEntries.map(({ entry, centerX }) => {
+              const baseY = entry.lane === 'external'
+                ? centerY - bodyHalfHeight - finHeight - 30
+                : centerY + bodyHalfHeight + finHeight + 22;
+              const laneKey0 = `${entry.lane}-0`;
+              const laneKey1 = `${entry.lane}-1`;
+              // Use stagger level 1 (offset ±14px) if too close to last label at level 0
+              let level = 0;
+              if (lastX[laneKey0] !== undefined && Math.abs(centerX - lastX[laneKey0]) < 60) {
+                level = 1;
+              }
+              const y = entry.lane === 'external'
+                ? baseY - level * 14
+                : baseY + level * 14;
+              const laneKey = `${entry.lane}-${level}`;
+              lastX[laneKey] = centerX;
+              return (
+                <text
+                  key={`label-${entry.component.id}`}
+                  x={centerX}
+                  y={y}
+                  textAnchor="middle"
+                  fontSize="10"
+                  fill="#94a3b8"
+                >
+                  {entry.component.name}
+                </text>
+              );
+            });
+          })()}
         </svg>
       </div>
 

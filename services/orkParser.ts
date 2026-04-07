@@ -1749,16 +1749,25 @@ const findMotorCenterInStage = (stageEl: Element): number => {
 // ============= Helper: Compute absolute positions for all components =============
 // Based on Python compute_absolute_positions method
 const computeAbsolutePositions = (components: RocketComponent[], parentPos: number = 0): void => {
-  components.forEach(comp => {
-    // Get axial_offset (if stored)
-    const axialOffset = (comp as any).axialOffset || 0;
-    const absolutePos = parentPos + axialOffset;
+  const sequentialTypes = new Set(['NOSECONE', 'BODYTUBE', 'TRANSITION']);
+  let sequentialPos = parentPos;
 
-    // Update absolute position
+  components.forEach(comp => {
+    const axialOffset = (comp as any).axialOffset || 0;
+    const isSequential = sequentialTypes.has(comp.type);
+    const hasExplicitOffset = axialOffset !== 0;
+
+    const absolutePos = (isSequential && !hasExplicitOffset)
+      ? sequentialPos
+      : parentPos + axialOffset;
+
     comp.position = absolutePos;
     (comp as any).absolutePosition = absolutePos;
 
-    // Recursively process subcomponents
+    if (isSequential && !hasExplicitOffset) {
+      sequentialPos += (comp as any).length || 0;
+    }
+
     if (comp.subComponents && comp.subComponents.length > 0) {
       computeAbsolutePositions(comp.subComponents, absolutePos);
     }
@@ -1983,14 +1992,27 @@ const parseComponents = (parent: Element, warnings: string[], parentPosition: nu
     'streamer', 'altimeter', 'battery'  // Functional components
   ];
 
-  // Use :scope > typeName to find only direct children
-  // Note: Some browsers may not support :scope, so safer approach is to iterate direct children
+  // Structural components (nosecone, bodytube, transition) are stacked end-to-end in OpenRocket
+  // when they have no explicit axialoffset. Track cumulative position for sequential stacking.
+  const sequentialTypes = new Set(['nosecone', 'bodytube', 'transition']);
+  let sequentialPos = parentPosition;
+
   const children = Array.from(subcomponentsEl.children);
   children.forEach((el, idx) => {
     const tagName = el.tagName.toLowerCase();
     if (componentTypes.includes(tagName)) {
-      const component = parseComponent(el, tagName, idx, warnings, parentPosition);
-      if (component) components.push(component);
+      const isSequential = sequentialTypes.has(tagName);
+      const hasExplicitOffset = !!el.querySelector(':scope > axialoffset') || !!el.querySelector(':scope > position');
+      const usePos = (isSequential && !hasExplicitOffset) ? sequentialPos : parentPosition;
+
+      const component = parseComponent(el, tagName, idx, warnings, usePos);
+      if (component) {
+        components.push(component);
+        // Advance sequential position by this component's length
+        if (isSequential && !hasExplicitOffset) {
+          sequentialPos += (component as any).length || 0;
+        }
+      }
     }
   });
 
@@ -2590,10 +2612,13 @@ const parseComponent = (element: Element, typeName: string, index: number, warni
         console.log(`  [${name}] Estimated Inner Tube Mass: ${(mass * 1000).toFixed(1)}g (L=${length}, D=${diameter}, t=${thickness}, Mat=${material}, ρ=${density})`);
       }
 
+      const isMotorMount = !!element.querySelector("motormount");
+
       specificProps = {
         length,
         diameter,
-        thickness
+        thickness,
+        isMotorMount
       };
       break;
     }
