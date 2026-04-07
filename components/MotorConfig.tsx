@@ -49,6 +49,11 @@ const MotorConfig: React.FC<Props> = ({ rocket, setRocket, orkFileName, setOrkFi
     ).slice(0, 6);
   }, []);
 
+  // E-series quick select
+  const eSeriesMotors = useMemo(() => {
+    return MOTOR_DATABASE.filter(m => /\bE\d/.test(m.name)).slice(0, 6);
+  }, []);
+
   // F-series quick select
   const fSeriesMotors = useMemo(() => {
     return MOTOR_DATABASE.filter(m => m.name.includes('F')).slice(0, 6);
@@ -538,6 +543,23 @@ const MotorConfig: React.FC<Props> = ({ rocket, setRocket, orkFileName, setOrkFi
                   ))}
                 </div>
               </div>
+
+              {eSeriesMotors.length > 0 && (
+              <div className="mb-3">
+                <h4 className="mb-2 font-mono text-xs uppercase tracking-[0.2em] text-slate-500">E-Series Motors</h4>
+                <div className="grid grid-cols-3 gap-2">
+                  {eSeriesMotors.map((motor, idx) => (
+                    <button
+                      key={`e-${idx}-${motor.name}`}
+                      onClick={() => handleSelectMotor(motor)}
+                      className="rounded-lg border border-slate-700 bg-[#020817] px-3 py-2 text-xs font-medium text-slate-200 transition-colors hover:border-cyan-500/30 hover:text-cyan-200"
+                    >
+                      {motor.name}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              )}
 
               <div>
                 <h4 className="mb-2 font-mono text-xs uppercase tracking-[0.2em] text-slate-500">F-Series Motors</h4>
