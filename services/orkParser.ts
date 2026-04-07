@@ -1997,21 +1997,48 @@ const parseComponents = (parent: Element, warnings: string[], parentPosition: nu
   const sequentialTypes = new Set(['nosecone', 'bodytube', 'transition']);
   let sequentialPos = parentPosition;
 
+  // Get parent length for bottom/middle offset calculations
+  const parentLength = parseFloat(findDirectChild(parent, "length")?.textContent || "0") || 0;
+
   const children = Array.from(subcomponentsEl.children);
   children.forEach((el, idx) => {
     const tagName = el.tagName.toLowerCase();
-    if (componentTypes.includes(tagName)) {
-      const isSequential = sequentialTypes.has(tagName);
-      const hasExplicitOffset = !!el.querySelector(':scope > axialoffset') || !!el.querySelector(':scope > position');
-      const usePos = (isSequential && !hasExplicitOffset) ? sequentialPos : parentPosition;
+    if (!componentTypes.includes(tagName)) return;
 
-      const component = parseComponent(el, tagName, idx, warnings, usePos);
-      if (component) {
-        components.push(component);
-        // Advance sequential position by this component's length
-        if (isSequential && !hasExplicitOffset) {
-          sequentialPos += (component as any).length || 0;
-        }
+    const isSequential = sequentialTypes.has(tagName);
+    const offsetEl = findDirectChild(el, "axialoffset") || findDirectChild(el, "position");
+    const hasExplicitOffset = !!offsetEl;
+    const method = offsetEl?.getAttribute("method") || offsetEl?.getAttribute("type") || "top";
+    const axialOffset = parseFloat(offsetEl?.textContent || "0") || 0;
+
+    let forePos: number;
+    if (isSequential && !hasExplicitOffset) {
+      // Sequential structural components stacked end-to-end
+      forePos = sequentialPos;
+    } else if (method === "bottom") {
+      // Fore of component = parent_aft + axialOffset - compLength
+      const compLen = parseFloat(
+        findDirectChild(el, "length")?.textContent ||
+        findDirectChild(el, "rootchord")?.textContent || "0"
+      ) || 0;
+      forePos = parentPosition + parentLength + axialOffset - compLen;
+    } else if (method === "middle") {
+      // Center of component = parent_fore + axialOffset → fore = center - compLength/2
+      const compLen = parseFloat(
+        findDirectChild(el, "length")?.textContent ||
+        findDirectChild(el, "rootchord")?.textContent || "0"
+      ) || 0;
+      forePos = parentPosition + axialOffset - compLen / 2;
+    } else {
+      // method="top" or absolute: fore of component = parent_fore + axialOffset
+      forePos = parentPosition + axialOffset;
+    }
+
+    const component = parseComponent(el, tagName, idx, warnings, forePos, true);
+    if (component) {
+      components.push(component);
+      if (isSequential && !hasExplicitOffset) {
+        sequentialPos += (component as any).length || 0;
       }
     }
   });
@@ -2019,7 +2046,7 @@ const parseComponents = (parent: Element, warnings: string[], parentPosition: nu
   return components;
 };
 
-const parseComponent = (element: Element, typeName: string, index: number, warnings: string[], parentPosition: number = 0): RocketComponent | null => {
+const parseComponent = (element: Element, typeName: string, index: number, warnings: string[], parentPosition: number = 0, positionPrecomputed: boolean = false): RocketComponent | null => {
   const name = element.querySelector("name")?.textContent || `${typeName} ${index + 1}`;
   const id = `${typeName}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
 
@@ -2068,10 +2095,11 @@ const parseComponent = (element: Element, typeName: string, index: number, warni
   };
 
   // ============= Improvement: Correctly extract axial_offset and compute absolute position =============
-  // Based on Python: use axial_offset accumulation to compute absolute position
+  // If positionPrecomputed=true, parseComponents already resolved the fore position correctly
+  // (handling method=top/bottom/middle). Use it directly.
   const axialOffsetText = findDirectChild(element, "axialoffset")?.textContent || "0";
   const axialOffset = parseFloat(axialOffsetText) || 0;
-  const absolutePosition = parentPosition + axialOffset;
+  const absolutePosition = positionPrecomputed ? parentPosition : parentPosition + axialOffset;
 
   // Extract length for subsequent position calculation
   const lengthText = findDirectChild(element, "length")?.textContent || "0";
@@ -2365,14 +2393,19 @@ const parseComponent = (element: Element, typeName: string, index: number, warni
       if (mass === -1 || mass === 0) {
         const materialEl = element.querySelector("material");
         const material = materialEl?.textContent || "";
-        const density = MATERIAL_DENSITIES[material] || 1050; // Default plastic density
+        const density = MATERIAL_DENSITIES[material] || 680; // Default cardboard density
+        const thicknessEl = element.querySelector("thickness");
+        const thickness = parseFloat(thicknessEl?.textContent || "0.002") || 0.002;
 
-        // Frustum volume: V = (1/3) * π * L * (R1² + R1*R2 + R2²)
+        // Frustum SHELL volume: lateral surface area × wall thickness
+        // Slant height: sqrt(L² + (R2 - R1)²)
         const r1 = foreRadius;
         const r2 = aftRadius;
-        const volume = (1 / 3) * Math.PI * length * (r1 * r1 + r1 * r2 + r2 * r2);
+        const slantHeight = Math.sqrt(length * length + (r2 - r1) * (r2 - r1));
+        const lateralArea = Math.PI * (r1 + r2) * slantHeight;
+        const volume = lateralArea * thickness;
         mass = volume * density;
-        console.log(`  [${name}] Estimated Transition Mass: ${(mass * 1000).toFixed(1)}g (L=${length}, D1=${foreDiameter}, D2=${aftDiameter}, Mat=${material}, ρ=${density})`);
+        console.log(`  [${name}] Estimated Transition Mass: ${(mass * 1000).toFixed(1)}g (L=${length}, D1=${foreDiameter}, D2=${aftDiameter}, t=${thickness}, Mat=${material}, ρ=${density})`);
       }
 
       specificProps = {
