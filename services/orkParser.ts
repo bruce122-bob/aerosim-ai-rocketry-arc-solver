@@ -1998,7 +1998,7 @@ const parseComponents = (parent: Element, warnings: string[], parentPosition: nu
   let sequentialPos = parentPosition;
 
   // Get parent length for bottom/middle offset calculations
-  const parentLength = parseFloat(findDirectChild(parent, "length")?.textContent || "0") || 0;
+  const parentLength = parseFloat(findDirectChildByTag(parent, "length")?.textContent || "0") || 0;
 
   const children = Array.from(subcomponentsEl.children);
   children.forEach((el, idx) => {
@@ -2006,7 +2006,7 @@ const parseComponents = (parent: Element, warnings: string[], parentPosition: nu
     if (!componentTypes.includes(tagName)) return;
 
     const isSequential = sequentialTypes.has(tagName);
-    const offsetEl = findDirectChild(el, "axialoffset") || findDirectChild(el, "position");
+    const offsetEl = findDirectChildByTag(el, "axialoffset") || findDirectChildByTag(el, "position");
     const hasExplicitOffset = !!offsetEl;
     const method = offsetEl?.getAttribute("method") || offsetEl?.getAttribute("type") || "top";
     const axialOffset = parseFloat(offsetEl?.textContent || "0") || 0;
@@ -2018,15 +2018,15 @@ const parseComponents = (parent: Element, warnings: string[], parentPosition: nu
     } else if (method === "bottom") {
       // Fore of component = parent_aft + axialOffset - compLength
       const compLen = parseFloat(
-        findDirectChild(el, "length")?.textContent ||
-        findDirectChild(el, "rootchord")?.textContent || "0"
+        findDirectChildByTag(el, "length")?.textContent ||
+        findDirectChildByTag(el, "rootchord")?.textContent || "0"
       ) || 0;
       forePos = parentPosition + parentLength + axialOffset - compLen;
     } else if (method === "middle") {
       // Center of component = parent_fore + axialOffset → fore = center - compLength/2
       const compLen = parseFloat(
-        findDirectChild(el, "length")?.textContent ||
-        findDirectChild(el, "rootchord")?.textContent || "0"
+        findDirectChildByTag(el, "length")?.textContent ||
+        findDirectChildByTag(el, "rootchord")?.textContent || "0"
       ) || 0;
       forePos = parentPosition + axialOffset - compLen / 2;
     } else {
