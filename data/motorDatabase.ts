@@ -227,13 +227,98 @@ export const MOTOR_DATABASE: MotorData[] = [
     propellantMass: 0.028,
     totalMass: 0.082
   },
+
+  // AeroTech E30-4T
+  // Motor mass: 47g, propellant mass: 18g
+  // Source: NAR certified RASP file via thrustcurve.org (certified Aug 1, 2010)
+  // Propellant: Blue Thunder. Case: RMS-24/40. Available delays: 4, 7 seconds.
+  {
+    name: 'AeroTech E30-4T',
+    manufacturer: 'AeroTech',
+    diameter: 0.024,
+    length: 0.070,
+    totalImpulse: 33.6,
+    averageThrust: 32.4,
+    maxThrust: 49.3,
+    burnTime: 1.020,
+    delayTime: 4.0,
+    thrustCurve: [
+      { time: 0.000, thrust: 0.000 },
+      { time: 0.006, thrust: 49.300 },
+      { time: 0.030, thrust: 45.701 },
+      { time: 0.038, thrust: 47.181 },
+      { time: 0.050, thrust: 45.180 },
+      { time: 0.062, thrust: 43.701 },
+      { time: 0.112, thrust: 43.402 },
+      { time: 0.138, thrust: 42.817 },
+      { time: 0.206, thrust: 42.073 },
+      { time: 0.238, thrust: 43.368 },
+      { time: 0.282, thrust: 41.575 },
+      { time: 0.324, thrust: 41.086 },
+      { time: 0.342, thrust: 41.733 },
+      { time: 0.362, thrust: 40.168 },
+      { time: 0.436, thrust: 38.158 },
+      { time: 0.524, thrust: 36.398 },
+      { time: 0.650, thrust: 32.972 },
+      { time: 0.712, thrust: 31.050 },
+      { time: 0.836, thrust: 25.077 },
+      { time: 0.874, thrust: 22.475 },
+      { time: 0.888, thrust: 21.508 },
+      { time: 0.900, thrust: 20.008 },
+      { time: 0.912, thrust: 17.176 },
+      { time: 0.924, thrust: 13.300 },
+      { time: 0.942, thrust: 6.650 },
+      { time: 0.962, thrust: 2.755 },
+      { time: 0.974, thrust: 1.637 },
+      { time: 0.988, thrust: 0.781 },
+      { time: 1.000, thrust: 0.429 },
+      { time: 1.010, thrust: 0.141 },
+      { time: 1.020, thrust: 0.000 },
+    ],
+    propellantMass: 0.018,
+    totalMass: 0.047
+  },
+
+  // AeroTech E26-7W  (also known as "Q-Jet E26-7W")
+  // W = White Lightning propellant, 7 = 7-second delay
+  // Motor mass: 44g, propellant mass: 18.3g
+  // Source: Tripoli certified RASP file via thrustcurve.org (certified Jan 30, 2021)
+  // Propellant: White Lightning. Case: RMS-24/40. Available delays: 4, 6, 7, 8, 10 seconds.
+  {
+    name: 'AeroTech E26-7W',
+    manufacturer: 'AeroTech',
+    diameter: 0.024,
+    length: 0.088,
+    totalImpulse: 27.85,
+    averageThrust: 23.5,
+    maxThrust: 27.89,
+    burnTime: 1.223,
+    delayTime: 7.0,
+    thrustCurve: [
+      { time: 0.000, thrust: 0.000 },
+      { time: 0.006, thrust: 0.020 },
+      { time: 0.025, thrust: 2.037 },
+      { time: 0.064, thrust: 16.932 },
+      { time: 0.167, thrust: 22.147 },
+      { time: 0.419, thrust: 26.955 },
+      { time: 0.673, thrust: 25.861 },
+      { time: 0.929, thrust: 25.631 },
+      { time: 1.086, thrust: 26.217 },
+      { time: 1.144, thrust: 16.765 },
+      { time: 1.172, thrust: 6.116 },
+      { time: 1.198, thrust: 0.568 },
+      { time: 1.223, thrust: 0.000 },
+    ],
+    propellantMass: 0.0183,
+    totalMass: 0.044
+  },
 ];
 
 // Motor manufacturers
 export const MOTOR_MANUFACTURERS = ['All', 'AeroTech'];
 
 // Motor classes
-export const MOTOR_CLASSES = ['All', 'F'];
+export const MOTOR_CLASSES = ['All', 'E', 'F'];
 
 // Helper function to filter motors
 export const filterMotors = (
