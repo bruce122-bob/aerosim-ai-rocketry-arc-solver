@@ -1,0 +1,4 @@
+{
+  "name": "AeroSim AI: Rocketry ARC Solver",
+  "description": "A high-fidelity web-based rocketry simulation tool designed for ARC competitors. Features real-time 3D flight visualization, environmental physics (air density/humidity), and Gemini-powered flight data analysis to optimize drag coefficients from altimeter logs."
+}

@@ -1,0 +1,795 @@
+{
+  "global_model": {
+    "type": "ridge",
+    "alpha": 10.0,
+    "coefficients": [
+      -12.376608,
+      -3.376049,
+      -6.017382,
+      -5.891847,
+      -0.395436,
+      8.790404,
+      0.455523,
+      -21.030433,
+      -20.213279,
+      -0.291234,
+      3.783466
+    ],
+    "intercept": 754.081967,
+    "feature_names": [
+      "mass_g",
+      "temp_c",
+      "humidity_percent",
+      "pressure_hpa",
+      "motor_mass_g",
+      "wind_speed_mph",
+      "air_density",
+      "mass_ratio",
+      "motor_F39-6T",
+      "motor_F42-8T",
+      "motor_F51-6T"
+    ],
+    "scaler_mean": [
+      599.788525,
+      10.99153,
+      56.072131,
+      1020.063192,
+      75.022951,
+      3.981967,
+      1.247847,
+      8.023853,
+      0.131148,
+      0.42623,
+      0.344262
+    ],
+    "scaler_std": [
+      41.881563,
+      6.376035,
+      15.7643,
+      12.686947,
+      7.069941,
+      3.005269,
+      0.039507,
+      0.439213,
+      0.337562,
+      0.494528,
+      0.475127
+    ],
+    "metrics": {
+      "loocv_mae": 31.16,
+      "loocv_r2": 0.3215
+    },
+    "n_samples": 61,
+    "motor_columns": [
+      "motor_F39-6T",
+      "motor_F42-8T",
+      "motor_F51-6T"
+    ],
+    "motor_values": [
+      "F32-6T",
+      "F39-6T",
+      "F42-8T",
+      "F51-6T"
+    ]
+  },
+  "motor_models": {
+    "F42-8T": {
+      "type": "ridge",
+      "alpha": 0.1,
+      "coefficients": [
+        -7.81412,
+        5.624735,
+        -12.36628,
+        -9.301977,
+        -0.0,
+        26.073459,
+        -5.35124,
+        -7.81412
+      ],
+      "intercept": 753.153846,
+      "feature_names": [
+        "mass_g",
+        "temp_c",
+        "humidity_percent",
+        "pressure_hpa",
+        "motor_mass_g",
+        "wind_speed_mph",
+        "air_density",
+        "mass_ratio"
+      ],
+      "scaler_mean": [
+        609.476923,
+        12.049786,
+        55.707692,
+        1018.47137,
+        75.9,
+        3.065385,
+        1.241149,
+        8.029999
+      ],
+      "scaler_std": [
+        16.848746,
+        6.51586,
+        14.783877,
+        13.779272,
+        0.0,
+        2.874281,
+        0.041681,
+        0.221986
+      ],
+      "metrics": {
+        "loocv_mae": 28.79,
+        "loocv_r2": 0.1745
+      },
+      "n_samples": 26
+    },
+    "F51-6T": {
+      "type": "ridge",
+      "alpha": 100.0,
+      "coefficients": [
+        -1.461697,
+        -2.282404,
+        -1.464156,
+        0.239028,
+        0.0,
+        -0.465262,
+        1.822499,
+        -1.461697
+      ],
+      "intercept": 775.142857,
+      "feature_names": [
+        "mass_g",
+        "temp_c",
+        "humidity_percent",
+        "pressure_hpa",
+        "motor_mass_g",
+        "wind_speed_mph",
+        "air_density",
+        "mass_ratio"
+      ],
+      "scaler_mean": [
+        626.757143,
+        10.342328,
+        54.852381,
+        1022.536545,
+        81.0,
+        4.580952,
+        1.253973,
+        7.737743
+      ],
+      "scaler_std": [
+        13.45191,
+        6.818097,
+        19.197634,
+        14.590868,
+        1.0,
+        2.963527,
+        0.042505,
+        0.166073
+      ],
+      "metrics": {
+        "loocv_mae": 28.17,
+        "loocv_r2": -0.0552
+      },
+      "n_samples": 21
+    },
+    "F39-6T": {
+      "type": "ridge",
+      "alpha": 0.1,
+      "coefficients": [
+        -28.66958,
+        17.520255,
+        -7.416854,
+        40.398016,
+        0.0,
+        57.823184,
+        -3.643548,
+        -28.66958
+      ],
+      "intercept": 703.75,
+      "feature_names": [
+        "mass_g",
+        "temp_c",
+        "humidity_percent",
+        "pressure_hpa",
+        "motor_mass_g",
+        "wind_speed_mph",
+        "air_density",
+        "mass_ratio"
+      ],
+      "scaler_mean": [
+        507.125,
+        9.381944,
+        59.1,
+        1019.30339,
+        60.0,
+        5.65,
+        1.253666,
+        8.452083
+      ],
+      "scaler_std": [
+        28.828968,
+        2.95183,
+        12.023311,
+        3.43681,
+        1.0,
+        2.371708,
+        0.017133,
+        0.480483
+      ],
+      "metrics": {
+        "loocv_mae": 23.81,
+        "loocv_r2": 0.8667
+      },
+      "n_samples": 8
+    },
+    "F32-6T": {
+      "type": "ridge",
+      "alpha": 1.0,
+      "coefficients": [
+        -34.523158,
+        -2.817994,
+        -0.640144,
+        3.593175,
+        6.216875,
+        1.105451,
+        2.94697,
+        -17.911522
+      ],
+      "intercept": 751.5,
+      "feature_names": [
+        "mass_g",
+        "temp_c",
+        "humidity_percent",
+        "pressure_hpa",
+        "motor_mass_g",
+        "wind_speed_mph",
+        "air_density",
+        "mass_ratio"
+      ],
+      "scaler_mean": [
+        586.966667,
+        10.824074,
+        57.883333,
+        1019.317427,
+        70.333333,
+        3.633333,
+        1.247666,
+        8.427635
+      ],
+      "scaler_std": [
+        17.202874,
+        6.723478,
+        8.688386,
+        4.365395,
+        7.542472,
+        3.009245,
+        0.035415,
+        0.805682
+      ],
+      "metrics": {
+        "loocv_mae": 31.53,
+        "loocv_r2": -0.3134
+      },
+      "n_samples": 6
+    }
+  },
+  "training_info": {
+    "total_samples": 61,
+    "motors": [
+      "F32-6T",
+      "F39-6T",
+      "F42-8T",
+      "F51-6T"
+    ],
+    "motor_counts": {
+      "F42-8T": 26,
+      "F51-6T": 21,
+      "F39-6T": 8,
+      "F32-6T": 6
+    },
+    "trained_at": "2026-04-03T18:52:55.744572",
+    "features_base": [
+      "mass_g",
+      "temp_c",
+      "humidity_percent",
+      "pressure_hpa",
+      "motor_mass_g",
+      "wind_speed_mph"
+    ],
+    "features_derived": [
+      "air_density",
+      "mass_ratio"
+    ]
+  },
+  "training_data_summary": [
+    {
+      "motor": "F42-8T",
+      "mass_g": 612.8,
+      "apogee_ft": 810.0,
+      "temp_c": 8.222222,
+      "humidity_percent": 45.5,
+      "pressure_hpa": 1009.821498
+    },
+    {
+      "motor": "F51-6T",
+      "mass_g": 604.0,
+      "apogee_ft": 807.0,
+      "temp_c": 7.833333,
+      "humidity_percent": 43.3,
+      "pressure_hpa": 1010.160137
+    },
+    {
+      "motor": "F51-6T",
+      "mass_g": 647.0,
+      "apogee_ft": 782.0,
+      "temp_c": 8.611111,
+      "humidity_percent": 38.2,
+      "pressure_hpa": 1009.821498
+    },
+    {
+      "motor": "F42-8T",
+      "mass_g": 556.0,
+      "apogee_ft": 815.0,
+      "temp_c": 7.055556,
+      "humidity_percent": 44.6,
+      "pressure_hpa": 1010.160137
+    },
+    {
+      "motor": "F42-8T",
+      "mass_g": 615.0,
+      "apogee_ft": 749.0,
+      "temp_c": 12.611111,
+      "humidity_percent": 35.7,
+      "pressure_hpa": 1009.821498
+    },
+    {
+      "motor": "F42-8T",
+      "mass_g": 598.0,
+      "apogee_ft": 828.0,
+      "temp_c": 8.055556,
+      "humidity_percent": 43.0,
+      "pressure_hpa": 1010.160137
+    },
+    {
+      "motor": "F51-6T",
+      "mass_g": 615.0,
+      "apogee_ft": 812.0,
+      "temp_c": 10.722222,
+      "humidity_percent": 34.3,
+      "pressure_hpa": 1021.335224
+    },
+    {
+      "motor": "F51-6T",
+      "mass_g": 636.3,
+      "apogee_ft": 786.0,
+      "temp_c": 12.722222,
+      "humidity_percent": 38.1,
+      "pressure_hpa": 1021.335224
+    },
+    {
+      "motor": "F39-6T",
+      "mass_g": 512.0,
+      "apogee_ft": 626.0,
+      "temp_c": 9.944444,
+      "humidity_percent": 51.6,
+      "pressure_hpa": 1021.335224
+    },
+    {
+      "motor": "F42-8T",
+      "mass_g": 626.0,
+      "apogee_ft": 712.0,
+      "temp_c": 9.111111,
+      "humidity_percent": 43.0,
+      "pressure_hpa": 1021.335224
+    },
+    {
+      "motor": "F42-8T",
+      "mass_g": 606.0,
+      "apogee_ft": 771.0,
+      "temp_c": 12.722222,
+      "humidity_percent": 38.1,
+      "pressure_hpa": 1021.335224
+    },
+    {
+      "motor": "F42-8T",
+      "mass_g": 613.0,
+      "apogee_ft": 748.0,
+      "temp_c": 11.888889,
+      "humidity_percent": 49.1,
+      "pressure_hpa": 1021.335224
+    },
+    {
+      "motor": "F39-6T",
+      "mass_g": 559.0,
+      "apogee_ft": 549.0,
+      "temp_c": 11.388889,
+      "humidity_percent": 35.8,
+      "pressure_hpa": 1021.335224
+    },
+    {
+      "motor": "F51-6T",
+      "mass_g": 615.8,
+      "apogee_ft": 752.0,
+      "temp_c": 4.944444,
+      "humidity_percent": 67.6,
+      "pressure_hpa": 1023.028419
+    },
+    {
+      "motor": "F51-6T",
+      "mass_g": 617.3,
+      "apogee_ft": 834.0,
+      "temp_c": 3.555556,
+      "humidity_percent": 51.1,
+      "pressure_hpa": 1020.657946
+    },
+    {
+      "motor": "F51-6T",
+      "mass_g": 634.0,
+      "apogee_ft": 820.0,
+      "temp_c": 2.0,
+      "humidity_percent": 51.2,
+      "pressure_hpa": 1020.657946
+    },
+    {
+      "motor": "F51-6T",
+      "mass_g": 638.5,
+      "apogee_ft": 784.0,
+      "temp_c": 20.0,
+      "humidity_percent": 3.5,
+      "pressure_hpa": 1013.25
+    },
+    {
+      "motor": "F51-6T",
+      "mass_g": 648.0,
+      "apogee_ft": 784.0,
+      "temp_c": -1.088889,
+      "humidity_percent": 52.0,
+      "pressure_hpa": 1083.6448
+    },
+    {
+      "motor": "F51-6T",
+      "mass_g": 622.0,
+      "apogee_ft": 781.0,
+      "temp_c": 5.0,
+      "humidity_percent": 70.0,
+      "pressure_hpa": 1020.657946
+    },
+    {
+      "motor": "F32-6T",
+      "mass_g": 592.8,
+      "apogee_ft": 779.0,
+      "temp_c": 9.944444,
+      "humidity_percent": 49.1,
+      "pressure_hpa": 1022.68978
+    },
+    {
+      "motor": "F42-8T",
+      "mass_g": 605.0,
+      "apogee_ft": 656.0,
+      "temp_c": 4.555556,
+      "humidity_percent": 62.9,
+      "pressure_hpa": 1023.028419
+    },
+    {
+      "motor": "F39-6T",
+      "mass_g": 545.0,
+      "apogee_ft": 681.0,
+      "temp_c": 8.333333,
+      "humidity_percent": 54.0,
+      "pressure_hpa": 1021.335224
+    },
+    {
+      "motor": "F51-6T",
+      "mass_g": 637.0,
+      "apogee_ft": 801.0,
+      "temp_c": 5.0,
+      "humidity_percent": 70.0,
+      "pressure_hpa": 1020.657946
+    },
+    {
+      "motor": "F51-6T",
+      "mass_g": 645.0,
+      "apogee_ft": 746.0,
+      "temp_c": 5.0,
+      "humidity_percent": 70.0,
+      "pressure_hpa": 1020.657946
+    },
+    {
+      "motor": "F32-6T",
+      "mass_g": 597.0,
+      "apogee_ft": 771.0,
+      "temp_c": 5.0,
+      "humidity_percent": 70.0,
+      "pressure_hpa": 1020.657946
+    },
+    {
+      "motor": "F42-8T",
+      "mass_g": 614.0,
+      "apogee_ft": 783.0,
+      "temp_c": 6.111111,
+      "humidity_percent": 65.0,
+      "pressure_hpa": 1019.642029
+    },
+    {
+      "motor": "F42-8T",
+      "mass_g": 576.0,
+      "apogee_ft": 785.0,
+      "temp_c": 10.0,
+      "humidity_percent": 76.0,
+      "pressure_hpa": 1015.917
+    },
+    {
+      "motor": "F42-8T",
+      "mass_g": 584.0,
+      "apogee_ft": 797.0,
+      "temp_c": 20.0,
+      "humidity_percent": 50.0,
+      "pressure_hpa": 1013.25
+    },
+    {
+      "motor": "F39-6T",
+      "mass_g": 509.0,
+      "apogee_ft": 717.0,
+      "temp_c": 5.0,
+      "humidity_percent": 70.0,
+      "pressure_hpa": 1020.657946
+    },
+    {
+      "motor": "F39-6T",
+      "mass_g": 485.0,
+      "apogee_ft": 770.0,
+      "temp_c": 6.111111,
+      "humidity_percent": 65.0,
+      "pressure_hpa": 1019.642029
+    },
+    {
+      "motor": "F42-8T",
+      "mass_g": 628.0,
+      "apogee_ft": 760.0,
+      "temp_c": 2.777778,
+      "humidity_percent": 96.0,
+      "pressure_hpa": 1019.980668
+    },
+    {
+      "motor": "F42-8T",
+      "mass_g": 625.0,
+      "apogee_ft": 752.0,
+      "temp_c": 6.666667,
+      "humidity_percent": 71.0,
+      "pressure_hpa": 1021.673863
+    },
+    {
+      "motor": "F51-6T",
+      "mass_g": 604.0,
+      "apogee_ft": 820.0,
+      "temp_c": 20.0,
+      "humidity_percent": 92.0,
+      "pressure_hpa": 1028.108004
+    },
+    {
+      "motor": "F51-6T",
+      "mass_g": 645.0,
+      "apogee_ft": 703.0,
+      "temp_c": 20.0,
+      "humidity_percent": 92.0,
+      "pressure_hpa": 1027.430726
+    },
+    {
+      "motor": "F42-8T",
+      "mass_g": 601.0,
+      "apogee_ft": 765.0,
+      "temp_c": 20.0,
+      "humidity_percent": 50.0,
+      "pressure_hpa": 1013.25
+    },
+    {
+      "motor": "F42-8T",
+      "mass_g": 609.0,
+      "apogee_ft": 753.0,
+      "temp_c": 20.0,
+      "humidity_percent": 50.0,
+      "pressure_hpa": 1013.25
+    },
+    {
+      "motor": "F42-8T",
+      "mass_g": 615.0,
+      "apogee_ft": 718.0,
+      "temp_c": -0.872222,
+      "humidity_percent": 47.0,
+      "pressure_hpa": 1083.6448
+    },
+    {
+      "motor": "F42-8T",
+      "mass_g": 611.0,
+      "apogee_ft": 739.0,
+      "temp_c": 20.0,
+      "humidity_percent": 50.0,
+      "pressure_hpa": 1013.25
+    },
+    {
+      "motor": "F42-8T",
+      "mass_g": 606.0,
+      "apogee_ft": 715.0,
+      "temp_c": 20.0,
+      "humidity_percent": 50.0,
+      "pressure_hpa": 1013.25
+    },
+    {
+      "motor": "F32-6T",
+      "mass_g": 605.0,
+      "apogee_ft": 698.0,
+      "temp_c": 4.611111,
+      "humidity_percent": 67.8,
+      "pressure_hpa": 1023.028419
+    },
+    {
+      "motor": "F42-8T",
+      "mass_g": 627.0,
+      "apogee_ft": 781.0,
+      "temp_c": 13.888889,
+      "humidity_percent": 67.0,
+      "pressure_hpa": 1013.546527
+    },
+    {
+      "motor": "F42-8T",
+      "mass_g": 624.6,
+      "apogee_ft": 705.0,
+      "temp_c": 8.888889,
+      "humidity_percent": 93.0,
+      "pressure_hpa": 1013.546527
+    },
+    {
+      "motor": "F51-6T",
+      "mass_g": 615.0,
+      "apogee_ft": 762.0,
+      "temp_c": 4.611111,
+      "humidity_percent": 69.3,
+      "pressure_hpa": 1023.028419
+    },
+    {
+      "motor": "F51-6T",
+      "mass_g": 620.0,
+      "apogee_ft": 764.0,
+      "temp_c": 7.611111,
+      "humidity_percent": 52.4,
+      "pressure_hpa": 1023.028419
+    },
+    {
+      "motor": "F42-8T",
+      "mass_g": 599.0,
+      "apogee_ft": 764.0,
+      "temp_c": 20.0,
+      "humidity_percent": 50.0,
+      "pressure_hpa": 1013.25
+    },
+    {
+      "motor": "F42-8T",
+      "mass_g": 609.0,
+      "apogee_ft": 729.0,
+      "temp_c": 20.0,
+      "humidity_percent": 50.0,
+      "pressure_hpa": 1013.25
+    },
+    {
+      "motor": "F39-6T",
+      "mass_g": 473.0,
+      "apogee_ft": 771.0,
+      "temp_c": 13.333333,
+      "humidity_percent": 72.0,
+      "pressure_hpa": 1013.546527
+    },
+    {
+      "motor": "F39-6T",
+      "mass_g": 483.0,
+      "apogee_ft": 728.0,
+      "temp_c": 13.333333,
+      "humidity_percent": 72.0,
+      "pressure_hpa": 1013.546527
+    },
+    {
+      "motor": "F32-6T",
+      "mass_g": 596.0,
+      "apogee_ft": 722.0,
+      "temp_c": 5.388889,
+      "humidity_percent": 60.4,
+      "pressure_hpa": 1023.028419
+    },
+    {
+      "motor": "F32-6T",
+      "mass_g": 578.0,
+      "apogee_ft": 715.0,
+      "temp_c": 20.0,
+      "humidity_percent": 50.0,
+      "pressure_hpa": 1013.25
+    },
+    {
+      "motor": "F32-6T",
+      "mass_g": 553.0,
+      "apogee_ft": 824.0,
+      "temp_c": 20.0,
+      "humidity_percent": 50.0,
+      "pressure_hpa": 1013.25
+    },
+    {
+      "motor": "F42-8T",
+      "mass_g": 626.0,
+      "apogee_ft": 760.0,
+      "temp_c": 6.555556,
+      "humidity_percent": 56.7,
+      "pressure_hpa": 1023.028419
+    },
+    {
+      "motor": "F42-8T",
+      "mass_g": 620.0,
+      "apogee_ft": 710.0,
+      "temp_c": 5.055556,
+      "humidity_percent": 64.8,
+      "pressure_hpa": 1023.028419
+    },
+    {
+      "motor": "F51-6T",
+      "mass_g": 627.0,
+      "apogee_ft": 771.0,
+      "temp_c": 10.555556,
+      "humidity_percent": 48.3,
+      "pressure_hpa": 1023.028419
+    },
+    {
+      "motor": "F51-6T",
+      "mass_g": 633.0,
+      "apogee_ft": 761.0,
+      "temp_c": 10.111111,
+      "humidity_percent": 58.6,
+      "pressure_hpa": 1023.028419
+    },
+    {
+      "motor": "F42-8T",
+      "mass_g": 608.0,
+      "apogee_ft": 784.0,
+      "temp_c": 20.0,
+      "humidity_percent": 50.0,
+      "pressure_hpa": 1013.25
+    },
+    {
+      "motor": "F42-8T",
+      "mass_g": 632.0,
+      "apogee_ft": 693.0,
+      "temp_c": 20.0,
+      "humidity_percent": 50.0,
+      "pressure_hpa": 1013.25
+    },
+    {
+      "motor": "F51-6T",
+      "mass_g": 627.0,
+      "apogee_ft": 715.0,
+      "temp_c": 20.0,
+      "humidity_percent": 50.0,
+      "pressure_hpa": 1013.25
+    },
+    {
+      "motor": "F51-6T",
+      "mass_g": 614.0,
+      "apogee_ft": 759.0,
+      "temp_c": 20.0,
+      "humidity_percent": 50.0,
+      "pressure_hpa": 1013.25
+    },
+    {
+      "motor": "F51-6T",
+      "mass_g": 617.0,
+      "apogee_ft": 734.0,
+      "temp_c": 20.0,
+      "humidity_percent": 50.0,
+      "pressure_hpa": 1013.25
+    },
+    {
+      "motor": "F39-6T",
+      "mass_g": 491.0,
+      "apogee_ft": 788.0,
+      "temp_c": 7.611111,
+      "humidity_percent": 52.4,
+      "pressure_hpa": 1023.028419
+    }
+  ]
+}
